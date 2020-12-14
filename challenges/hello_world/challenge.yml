@@ -1,0 +1,39 @@
+# Set the id of the challenge
+# It will be used as a unique identifier on the website
+id: hello_world
+
+# Human-readable name of the challenge as displayed on the website
+name: Hello, world!
+
+# Author of the challenge
+# You can use the ${github_account} variable which will be replaced
+# by the name of the account / organization which hosts the challenge repository
+author: ${github_account}
+
+# Short description of the challenge
+description: >
+  Just print a simple hello world
+
+# Difficulty of the challenge
+# You can consider this an abstract metric
+# It should be the approximate amount of minutes a developer takes to complete the challenge
+difficulty: 0
+
+# Whether the challenge is disabled or not
+disabled: no
+
+# Instructions of the challenge
+# Put there the L10N code followed by the relative path
+# of the Markdown file containing the instructions
+instructions:
+  fr-FR: instructions.fr.md
+  en-US: instructions.en.md
+
+# Relative path of the file containing the checks for this challenge
+checks: checks.yml
+
+# Allowed environments for this challenge
+# If this key is empty / null, all visible environments can be used
+environments:
+  - python
+  - hello_world/echo
