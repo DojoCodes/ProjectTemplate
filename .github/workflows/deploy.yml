@@ -12,6 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Prepare Python environment
+        run: apt-get install python3-setuptools
+
       - name: Install dependencies
         run: pip3 install -r requirements.txt
 
