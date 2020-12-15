@@ -7,6 +7,8 @@ ACCOUNT_USERNAME = os.environ["DOJO_USERNAME"]
 ACCOUNT_PASSWORD = os.environ["DOJO_PASSWORD"]
 GITHUB_USERNAME = os.environ["GITHUB_USERNAME"]
 
+print("Account username", ACCOUNT_USERNAME)
+
 
 def _get_token(*scopes):
     token_payload = {
