@@ -2,10 +2,12 @@
 hello_world:
   # Name of the check as displayed on the website if visible
   name: Hello, world!
-  # Standard input for this check (string)
-  stdin: null
-  # Parameters (or argv) for this check (array)
-  parameters: null
+  # Various inputs for the check
+  input:
+    # Standard input for this check (string)
+    stdin: null
+    # Parameters (or argv) for this check (array)
+    parameters: null
   # Expected output (string)
   output: Hello, world!
   # Whether the check is visible for the user or not (sample check)
