@@ -12,5 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
       - name: Run deployment script
         run: python .github/workflows/deploy.py
+        env:
+          dojo_username: ${{ secrets.dojo_username }}
+          dojo_password: ${{ secrets.dojo_password }}
