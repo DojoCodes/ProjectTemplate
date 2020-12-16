@@ -4,7 +4,7 @@ import yaml
 
 DOJO_URL = "https://api.dojo.codes"
 ACCOUNT_USERNAME = os.environ["DOJO_USERNAME"]
-ACCOUNT_PASSWORD = os.environ["DOJO_PASSWORD"]
+ACCOUNT_PASSWORD = os.environ["DOJO_TOKEN"]
 GITHUB_USERNAME = os.environ["GITHUB_USERNAME"]
 
 print("Account username", ACCOUNT_USERNAME)
@@ -13,10 +13,12 @@ print("Account username", ACCOUNT_USERNAME)
 def _get_token(*scopes):
     token_payload = {
         "username": ACCOUNT_USERNAME,
-        "password": ACCOUNT_PASSWORD,
-        "scope": " ".join(scopes),
+        "token": ACCOUNT_PASSWORD,
     }
-    response = requests.post(f"{DOJO_URL}/authentication/token", data=token_payload)
+    response = requests.post(
+        f"{DOJO_URL}/authentication/personal_access_token_login",
+        json=token_payload,
+    )
     return response.json()["access_token"]
 
 
