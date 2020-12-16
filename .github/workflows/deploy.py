@@ -10,7 +10,7 @@ GITHUB_USERNAME = os.environ["GITHUB_USERNAME"]
 print("Account username", ACCOUNT_USERNAME)
 
 
-def _get_token(*scopes):
+def _get_token():
     token_payload = {
         "username": ACCOUNT_USERNAME,
         "token": ACCOUNT_PASSWORD,
@@ -23,7 +23,7 @@ def _get_token(*scopes):
 
 
 def _check_if_challenge_already_exists(challenge_id: str):
-    token = _get_token("challenge_read")
+    token = _get_token()
     challenge_already_exists_response = requests.get(
         f"{DOJO_URL}/challenge/{challenge_id}",
         headers={"Authorization": f"Bearer {token}"},
@@ -51,7 +51,7 @@ class KeyNotFound:
 
 
 def update_challenge(challenge_path: str, challenge: dict):
-    token = _get_token("challenge_write")
+    token = _get_token()
 
     challenge_id = challenge["id"]
 
@@ -101,7 +101,7 @@ def update_challenge(challenge_path: str, challenge: dict):
 
 
 def create_challenge(challenge_path: str, challenge: dict):
-    token = _get_token("challenge_data_create")
+    token = _get_token()
 
     challenge_id = challenge["id"]
 
