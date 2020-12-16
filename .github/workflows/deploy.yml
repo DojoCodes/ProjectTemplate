@@ -22,5 +22,5 @@ jobs:
         run: python3 .github/workflows/deploy.py
         env:
           DOJO_USERNAME: ${{ secrets.DOJO_USERNAME }}
-          DOJO_PASSWORD: ${{ secrets.DOJO_PASSWORD }}
+          DOJO_TOKEN: ${{ secrets.DOJO_TOKEN }}
           GITHUB_USERNAME: ${{ github.actor }}
