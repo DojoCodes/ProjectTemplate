@@ -80,12 +80,16 @@ def update_challenge(challenge_path: str, challenge: dict):
 
     # Building payload
     payload = {
-        "name": challenge["name"],
-        "description": challenge.get("description", KeyNotFound),
-        "author": challenge.get("author", KeyNotFound),
+        "name": challenge["name"].strip(),
+        "description": challenge["description"].strip()
+        if "description" in challenge
+        else KeyNotFound,
+        "author": challenge["author"].strip() if "author" in challenge else KeyNotFound,
         "difficulty": challenge.get("difficulty", KeyNotFound),
         "disabled": challenge.get("disabled", KeyNotFound),
-        "instructions": instructions,
+        "instructions": (
+            instructions.strip() if instructions is not KeyNotFound else instructions
+        ),
         "checks": checks,
         "environments": challenge.get("environments", KeyNotFound),
     }
@@ -103,7 +107,7 @@ def update_challenge(challenge_path: str, challenge: dict):
 def create_challenge(challenge_path: str, challenge: dict):
     token = _get_token()
 
-    challenge_id = challenge["id"]
+    challenge_id = challenge["id"].strip()
 
     # Reading instructions from file
     instructions = KeyNotFound
@@ -131,12 +135,12 @@ def create_challenge(challenge_path: str, challenge: dict):
     # Building payload
     payload = {
         "id": challenge_id,
-        "name": challenge["name"],
-        "description": challenge["description"],
-        "author": challenge["author"],
+        "name": challenge["name"].strip(),
+        "description": challenge["description"].strip(),
+        "author": challenge["author"].strip(),
         "difficulty": challenge["difficulty"],
         "disabled": challenge["disabled"],
-        "instructions": instructions,
+        "instructions": instructions.strip(),
         "checks": checks,
         "environments": challenge.get("environments", KeyNotFound),
     }
