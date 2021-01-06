@@ -7,8 +7,6 @@ ACCOUNT_USERNAME = os.environ["DOJO_USERNAME"]
 ACCOUNT_PASSWORD = os.environ["DOJO_TOKEN"]
 GITHUB_USERNAME = os.environ["GITHUB_USERNAME"]
 
-print("Account username", ACCOUNT_USERNAME)
-
 
 def _get_token():
     token_payload = {
@@ -50,111 +48,6 @@ class KeyNotFound:
     pass
 
 
-def update_challenge(challenge_path: str, challenge: dict):
-    token = _get_token()
-
-    challenge_id = challenge["id"]
-
-    # Reading instructions from file
-    instructions = KeyNotFound
-    if "instructions" in challenge and list(challenge["instructions"]):
-        instruction_filename = challenge["instructions"][
-            list(challenge["instructions"])[0]
-        ]
-        with open(
-            os.path.join(challenge_path, instruction_filename),
-            encoding="utf-8",
-        ) as instruction_file:
-            instructions = instruction_file.read()
-
-    # Reading checks
-    checks = KeyNotFound
-    if "checks" in challenge:
-        if isinstance(challenge["checks"], str):
-            with open(
-                os.path.join(challenge_path, challenge["checks"]), encoding="utf-8"
-            ) as checks_file:
-                checks = yaml.load(checks_file.read(), Loader=yaml.FullLoader)
-        else:
-            raise RuntimeError("checks must be a string")
-
-    # Building payload
-    payload = {
-        "name": challenge["name"].strip(),
-        "description": challenge["description"].strip()
-        if "description" in challenge
-        else KeyNotFound,
-        "author": challenge["author"].strip() if "author" in challenge else KeyNotFound,
-        "difficulty": challenge.get("difficulty", KeyNotFound),
-        "disabled": challenge.get("disabled", KeyNotFound),
-        "instructions": (
-            instructions.strip() if instructions is not KeyNotFound else instructions
-        ),
-        "checks": checks,
-        "environments": challenge.get("environments", KeyNotFound),
-    }
-    # Stripping empty keys
-    payload = {key: value for key, value in payload.items() if value is not KeyNotFound}
-    print("Sending payload", payload)
-    response = requests.patch(
-        f"{DOJO_URL}/challenge/{challenge_id}",
-        headers={"Authorization": f"Bearer {token}"},
-        json=payload,
-    )
-    print(response, response.json())
-
-
-def create_challenge(challenge_path: str, challenge: dict):
-    token = _get_token()
-
-    challenge_id = challenge["id"].strip()
-
-    # Reading instructions from file
-    instructions = KeyNotFound
-    if "instructions" in challenge and list(challenge["instructions"]):
-        instruction_filename = challenge["instructions"][
-            list(challenge["instructions"])[0]
-        ]
-        with open(
-            os.path.join(challenge_path, instruction_filename),
-            encoding="utf-8",
-        ) as instruction_file:
-            instructions = instruction_file.read()
-
-    # Reading checks
-    checks = KeyNotFound
-    if "checks" in challenge:
-        if isinstance(challenge["checks"], str):
-            with open(
-                os.path.join(challenge_path, challenge["checks"]), encoding="utf-8"
-            ) as checks_file:
-                checks = yaml.load(checks_file.read(), Loader=yaml.FullLoader)
-        else:
-            raise RuntimeError("checks must be a string")
-
-    # Building payload
-    payload = {
-        "id": challenge_id,
-        "name": challenge["name"].strip(),
-        "description": challenge["description"].strip(),
-        "author": challenge["author"].strip(),
-        "difficulty": challenge["difficulty"],
-        "disabled": challenge["disabled"],
-        "instructions": instructions.strip(),
-        "checks": checks,
-        "environments": challenge.get("environments", KeyNotFound),
-    }
-    # Stripping empty keys
-    payload = {key: value for key, value in payload.items() if value is not KeyNotFound}
-    print("Sending payload", payload)
-    response = requests.post(
-        f"{DOJO_URL}/challenge",
-        headers={"Authorization": f"Bearer {token}"},
-        json=payload,
-    )
-    print(response, response.json())
-
-
 def create_or_update_challenge(challenge_path: str):
     print(f"Loading challenge definition at '{challenge_path}'")
     with open(
@@ -164,12 +57,72 @@ def create_or_update_challenge(challenge_path: str):
         challenge_content = _fill_variables(challenge_content)
         challenge = yaml.load(challenge_content, Loader=yaml.FullLoader)
 
-    challenge_already_exists = _check_if_challenge_already_exists(challenge["id"])
+    challenge_id = challenge["id"].strip()
+    challenge_already_exists = _check_if_challenge_already_exists(challenge_id)
 
     if challenge_already_exists:
-        update_challenge(challenge_path, challenge)
+        challenge_requests_method = requests.patch
+        challenge_requests_url = f"{DOJO_URL}/challenge/{challenge_id}"
+        required_fields = ["id", "name"]
     else:
-        create_challenge(challenge_path, challenge)
+        challenge_requests_method = requests.post
+        challenge_requests_url = f"{DOJO_URL}/challenge"
+        required_fields = [
+            "id",
+            "name",
+            "description",
+            "author",
+            "difficulty",
+            "disabled",
+            "instructions",
+        ]
+
+    token = _get_token()
+
+    # Reading instructions from file
+    instructions = KeyNotFound
+    if "instructions" in challenge and list(challenge["instructions"]):
+        instruction_filename = challenge["instructions"][
+            list(challenge["instructions"])[0]
+        ]
+        with open(
+            os.path.join(challenge_path, instruction_filename),
+            encoding="utf-8",
+        ) as instruction_file:
+            instructions = instruction_file.read()
+
+    # Reading checks
+    checks = KeyNotFound
+    if "checks" in challenge:
+        if isinstance(challenge["checks"], str):
+            with open(
+                os.path.join(challenge_path, challenge["checks"]), encoding="utf-8"
+            ) as checks_file:
+                checks = yaml.load(checks_file.read(), Loader=yaml.FullLoader)
+        else:
+            raise RuntimeError("checks must be a string")
+
+    # Building payload
+    payload = {
+        key: (
+            challenge[key]
+            if key in required_fields
+            else challenge.get(key, KeyNotFound)
+        )
+        for key in challenge.keys()
+    }
+
+    # Stripping empty keys
+    payload = {key: value for key, value in payload.items() if value is not KeyNotFound}
+
+    # Sending payload
+    print("Sending payload", payload)
+    response = challenge_requests_method(
+        challenge_requests_url,
+        headers={"Authorization": f"Bearer {token}"},
+        json=payload,
+    )
+    print(response, response.json())
 
 
 with open("project.yml", encoding="utf-8") as project_file:
