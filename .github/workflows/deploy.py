@@ -111,6 +111,8 @@ def create_or_update_challenge(challenge_path: str):
         )
         for key in challenge.keys()
     }
+    payload["instructions"] = instructions
+    payload["checks"] = checks
 
     # Stripping empty keys
     payload = {key: value for key, value in payload.items() if value is not KeyNotFound}
