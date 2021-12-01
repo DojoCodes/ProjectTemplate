@@ -439,8 +439,8 @@ def create_or_update_campaign(campaign_id: str, campaign: dict):
     payload = {key: value for key, value in payload.items() if value is not KeyNotFound}
     if "start_date" in payload:
         payload["start_date"] = payload["start_date"].isoformat()
-    if "end_date" in payload:
-        payload["end_date"] = payload["end_date"].isoformat()
+    if "expiration_date" in payload:
+        payload["expiration_date"] = payload["expiration_date"].isoformat()
 
     # Sending payload
     print("Sending payload", payload)
