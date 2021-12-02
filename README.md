@@ -13,3 +13,4 @@ This list of scopes is required for the token used in the deployment pipeline
 - `environment_write`
 - `campaign_write`
 - `score_write`
+- `challenge_create`
