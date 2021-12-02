@@ -2,7 +2,7 @@ import os
 import requests
 import yaml
 
-DOJO_URL = "https://api.dojo.codes"
+DOJO_URL = os.environ.get("DOJO_API_URL", "https://api.dojo.codes")
 ACCOUNT_USERNAME = os.environ["DOJO_USERNAME"]
 ACCOUNT_PASSWORD = os.environ["DOJO_TOKEN"]
 GITHUB_USERNAME = os.environ["GITHUB_USERNAME"]
