@@ -1,2 +1,39 @@
+# List of all challenges, they can later be included in campaigns defined below
+# They can also exist without campaigns or be included in multiple campaigns defined outside of this project
 challenges:
   - challenges/hello_world
+
+# List of scoreboards defined by the project
+# They can also exist without campaigns or be included in multiple campaigns defined outside of this project
+scoreboards:
+  - scoreboards/scoreboard.yml
+
+# List of campaigns declared in this project
+campaigns:
+  hello_world_campaign:
+    # Human readable name of the campaign
+    name: Hello, world! campaign
+    # HTTP route for easy access to the campaign
+    route_name: hello_world
+    mode: Speedrun
+    # Challenges will be played in the order defined in the `challenges` field below
+    challenge_selection_mode: Sequence
+    # Optional start date in the ISO 8601 format
+    start_date: null
+    # Optional end date in the ISON 8601 format
+    end_date: null
+    # IDs of the challenge to include in the campaign
+    # Both challenges defined by this project and challenges defined outside of this project can be used
+    challenges:
+      - hello_world
+    description: >
+      This is a **Markdown** compatible description of the Hello, world! campaign
+    # Optional link to an image that will be used as the campaign thumbnail
+    thumbnail: null
+    # List of tags required by a player to join the campaign
+    # Empty means "no requirements"
+    # Multiple tags indicates that the player must have ALL tags to join
+    tags_requirements: []
+    # ID of the scoreboard included above
+    # You can also use a scoreboard defined outside of this project
+    associated_scoreboard: hello_world_scoreboard
