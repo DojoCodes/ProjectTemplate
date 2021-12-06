@@ -1,0 +1,8 @@
+id: hello_world_scoreboard
+route_name: hello_world_scoreboard
+rules:
+  hello_world_challenge:
+    name: "Points for Hello, world! challenge"
+    challenge: hello_world
+    from_campaign: hello_world_campaign
+    base: 1
