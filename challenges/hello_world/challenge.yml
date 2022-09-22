@@ -28,8 +28,8 @@ disabled: no
 # Put there the L10N code followed by the relative path
 # of the Markdown file containing the instructions
 instructions:
-  en-US: instructions.en.md
-  fr-FR: instructions.fr.md
+  en-US: !read_text_file instructions.en.md
+  fr-FR: !read_text_file instructions.fr.md
 
 # Relative path of the file containing the checks for this challenge
 checks: checks.yml
@@ -38,4 +38,12 @@ checks: checks.yml
 # If this key is empty / null, all visible environments can be used
 environments:
   - python
-  - hello_world/echo
+  - cpp
+
+# Placeholders for each environment (optional)
+placeholders:
+  python: !read_text_file placeholders/main.py
+  cpp: !read_text_file placeholders/main.cpp
+
+# Tags of the challenge (optional)
+tags: ["type:multi-language", "difficulty:*"]

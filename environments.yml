@@ -1,6 +1,0 @@
-hello_world/echo:
-  base_environment: python
-  injection_method: String
-  code: "print(\"\"\"{code}\"\"\")"
-  description: Environment that prints the input code
-  visible: no

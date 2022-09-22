@@ -261,7 +261,7 @@ def read_challenge(challenge_dir: str):
         ), "checks must be a string (a relative path)"
         checks_filepath = os.path.join(challenge_dir, challenge["checks"])
         checks = read_checks(checks_filepath=checks_filepath)
-    challenge["checks"] = checks  # overwrite with real data
+    challenge["inputs"] = checks  # overwrite with real data
     return challenge
 
 
@@ -438,9 +438,9 @@ def create_or_update_campaign(campaign_id: str, campaign: dict):
     # Stripping empty keys
     payload = {key: value for key, value in payload.items() if value is not KeyNotFound}
     if "start_date" in payload:
-        payload["start_date"] = payload["start_date"].isoformat()
+        payload["start_date"] = payload["start_date"].isoformat() if payload["start_date"] else None
     if "expiration_date" in payload:
-        payload["expiration_date"] = payload["expiration_date"].isoformat()
+        payload["expiration_date"] = payload["expiration_date"].isoformat() if payload["end_date"] else None
 
     # Sending payload
     print("Sending payload", payload)
