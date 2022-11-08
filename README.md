@@ -13,7 +13,6 @@ This list of scopes is required for the token used in the deployment pipeline
 - `campaign_read`
 - `score_read`
 - `challenge_write`
-- `environment_write`
 - `campaign_write`
 - `score_write`
 - `challenge_create`
@@ -30,7 +29,6 @@ Create a Personal Access Token using the [DojoCodes API](https://api.dojo.codes/
     "campaign_read",
     "score_read",
     "challenge_write",
-    "environment_write",
     "campaign_write",
     "score_write",
     "challenge_create"
@@ -50,7 +48,6 @@ The response will show you the token :
     "campaign_read",
     "score_read",
     "challenge_write",
-    "environment_write",
     "campaign_write",
     "score_write",
     "challenge_create"
