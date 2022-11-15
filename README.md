@@ -16,6 +16,7 @@ This list of scopes is required for the token used in the deployment pipeline
 - `campaign_write`
 - `score_write`
 - `challenge_create`
+- `environment_admin`
 
 ## Using GitHub Actions to deploy project
 
@@ -31,7 +32,8 @@ Create a Personal Access Token using the [DojoCodes API](https://api.dojo.codes/
     "challenge_write",
     "campaign_write",
     "score_write",
-    "challenge_create"
+    "challenge_create",
+    "environment_admin"
   ]
 }
 ```
