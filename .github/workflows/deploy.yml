@@ -12,15 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Prepare Python environment
-        run: sudo apt-get install python3-setuptools
-
-      - name: Install dependencies
-        run: pip3 install -r requirements.txt
-
-      - name: Run deployment script
-        run: python3 .github/workflows/deploy.py
-        env:
-          DOJO_USERNAME: ${{ secrets.DOJO_USERNAME }}
-          DOJO_TOKEN: ${{ secrets.DOJO_TOKEN }}
-          GITHUB_USERNAME: ${{ github.actor }}
+      - id: upload-project
+        uses: DojoCodes/DojoActions@v1
+        with:
+          dojo-username: "dojo"
+          dojo-token: ${{ secrets.DOJO_TOKEN }}
