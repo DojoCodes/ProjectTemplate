@@ -6,11 +6,11 @@ id: hello_world
 name: Hello, world!
 
 # Author of the challenge
-# You can use the ${github_username} variable which will be replaced
+# You can use the ${project_author} variable which will be replaced
 # by the name of the account / organization which hosts the challenge repository
 # You can also use ${dojo_username} if you prefer to use your Dojo username instead
 # Or simply use any string
-author: ${github_username}
+author: ${project_author}
 
 # Short description of the challenge
 description: >
