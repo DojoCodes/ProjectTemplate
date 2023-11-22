@@ -4,7 +4,7 @@ hello_world:
   name: Hello, world!
   # Standard input for this check (string).
   # If input on multiple rows : separate each entry by an empty row
-  stdin: null
+  stdin: ""
   # Parameters (or argv) for this check (array)
   parameters: null
   # Expected output (string)
