@@ -6,7 +6,7 @@ hello_world:
   # If input on multiple rows : separate each entry by an empty row
   stdin: ""
   # Parameters (or argv) for this check (array)
-  parameters: null
+  parameters: []
   # Expected output (string)
   expected_stdout: Hello, world!
   # Whether the check is visible for the user or not (sample check)
